@@ -1,7 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<PersonContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("PersonContext") ?? throw new InvalidOperationException("Connection string 'PersonContext' not found.")));
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
